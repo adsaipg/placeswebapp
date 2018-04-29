@@ -1,0 +1,85 @@
+<div class="container reg-container">
+    <div class="container">
+            <ngx-loading [show]="loading"></ngx-loading>
+        <form class="form-horizontal" role="form">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h2>Please Register</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group has-danger">
+                        <label class="sr-only" for="email">E-Mail Address</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+                            <input (keyup)="onKeyEmail($event)" #email type="text" name="email" class="form-control" id="email"
+                                   placeholder="you@example.com" required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- <i class="fa fa-close"></i> Example error message -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="sr-only" for="password">Password</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <input (keyup)="onKeyPass($event)" #password type="password" name="password" class="form-control" id="password"
+                                   placeholder="Password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                        <!-- Put password error message here -->    
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="sr-only" for="password">Confirm Password</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <input (keyup)="onKeyConfPass($event)" #confPassword type="password" name="confpassword" class="form-control" id="confPassword"
+                                   placeholder="Confirm Password" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                        <!-- Put password error message here -->    
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="errMsg">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6" style="padding-top: .35rem;color:darkred">
+                            <span style="padding-bottom: .15rem">{{errMsg}}</span>
+                    </div>
+                </div>
+            <div class="row" style="padding-top: 1rem">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" [disabled]="errMsg===''? false:true" class="btn btn-success" (click)="emailSignUp()"><i class="fa fa-sign-in"></i> Register</button>
+                </div>
+            </div>
+        </form>
+    </div></div>

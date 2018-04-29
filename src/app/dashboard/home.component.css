@@ -1,0 +1,23 @@
+.home-container{
+    margin-top: 80px;
+}
+.pageTemplate {
+    height: 160px;
+    border: 2px solid #ddd;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    margin: 15px;
+    padding: 15px;
+  }
+
+ .pageTemplate .add {
+      font-size: 20px;
+      padding-bottom: 20px;
+    }
+.pageTemplate .add i {
+      color: #ccc
+    }
+#placeModal{
+    background: radial-gradient(circle, rgb(245, 245, 245), transparent, rgb(207, 207, 205));
+}

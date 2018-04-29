@@ -1,0 +1,17 @@
+<div class="row justify-content-md-center search-place">
+    <div class="col col-lg-12">
+        <div class="form-group">
+            <ng4geo-autocomplete (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" 
+    [disableDefaultUI]="false" [zoomControl]="true">
+
+        <agm-marker [latitude]="latitude" [longitude]="longitude">
+        </agm-marker>
+
+
+    </agm-map>
+</div>
