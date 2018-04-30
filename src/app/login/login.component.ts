@@ -67,6 +67,7 @@ onKeyEmail(e){
   private updateUserData(): void {
      // alert("success");
       this.loading = false;
+      localStorage.setItem('userInfo' , JSON.stringify(this.currentUserId));
       this.router.navigate(['home'], {
         relativeTo: this.route.parent,
     }); 

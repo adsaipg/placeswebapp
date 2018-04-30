@@ -18,10 +18,13 @@ import { HeaderComponent } from './appheader/header.component';
 import { HomeComponent } from './dashboard/home.component';
 import { LoginHomeComponent } from './loginhome/loginhome.component';
 import { PlaceSelectComponent } from './placeselect/placeselect.component';
+import { AppService } from './app.services';
+import { FilterPipe} from './pipes/filter.pipe';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth'
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB0DWK1DxAGOno26qqERDz8o5iVtU_Y1-g",
@@ -44,7 +47,8 @@ const routes:Routes = [
     RegisterComponent,
     HeaderComponent,
     HomeComponent,
-    PlaceSelectComponent
+    PlaceSelectComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -71,9 +75,12 @@ const routes:Routes = [
   }),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [
+    AppService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

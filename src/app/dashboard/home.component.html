@@ -1,10 +1,11 @@
 <div class="conatiner-fluid home-container">
+    <ngx-loading [show]="loading"></ngx-loading>
   <div class="row">
     <div class="col-12 col-md-3">
     </div>
     <div class="col-12 col-md-7">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search by place" aria-label="Search by place" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="Search by place address" [(ngModel)]="searchText" aria-label="Search by place" aria-describedby="basic-addon2">
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">
             <i class="fa fa-search"></i>
@@ -13,7 +14,7 @@
       </div>
     </div>
     <div class="col-6 col-md-2">
-      <button type="button" class="btn btn-secondary">
+      <button type="button" class="btn btn-secondary" (click)="signOut()">
         <i class="fa fa-sign-out"></i> Logout</button>
     </div>
   </div>
@@ -23,23 +24,19 @@
       <div class="card" style="border:0px;">
       <div class="card-block">
         <div class="row">
-          <div  class="col-xs-2 pageTemplate" (click)="action()">
-            <div  class="add">
+          <div *ngFor="let place of placesArray | filter : searchText" class="col-xs-2 pageTemplate" (click)="action()">
+            <div *ngIf="!place.address; else showData" class="add">
               <i class="fa fa-plus fa-5x"></i>
-              <br>Add new place
+              <br>{{place?.description}}
               <br>
             </div>
             <ng-template #showData>
-              <div class="card-info" (click)="tileClick(subject,i);">
-                <div class="card-color" [ngStyle]="{background : grey}">
-                  <!--Randomly pick a color from an array of Material Colors-->
-                </div>
-                <img src="../../assets/img/places.png" style="height: 80px; border-radius: 50%; margin-left: auto; margin-right: auto; margin-top: -40px; background-color: #ffffff;">
-                <p class="subject" [ngStyle]="{color : red}">place names
-                  <!--space added for notification-->&nbsp;</p>
-                <!--Same font color as card-->
-                <hr style="color: #424242; width: 250px; margin-right: auto; margin-left: auto; margin-bottom: 10px;">
-                <span class="faculty">data</span>
+              <div style="display: block; text-align: left;">
+                <div style="font-size:14px; display: block;"><b>Title:</b> {{place?.address }}</div>
+                <div style="font-size:12px;"><b>Description:</b> {{ place?.description }}</div>
+                <button type="button" class="btn btn-warning btn-circle" (click)="delete(page,$event)">
+                  <i class="fa fa-times"></i>
+                </button>
               </div>
             </ng-template>
           </div>
@@ -49,7 +46,7 @@
     </div>
     </div>
   </div>
-  <div class="modal" id="placeModal" role="dialog" aria-hidden="true" 
+  <div class="modal" *ngIf="showModal" id="placeModal" role="dialog" aria-hidden="true" 
   [ngStyle]="{'display':display}">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
