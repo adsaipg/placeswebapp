@@ -1,9 +1,10 @@
 <div class="conatiner-fluid home-container">
   <ngx-loading [show]="loading"></ngx-loading>
-  <div class="row">
+  <div class="row justify-content-md-center">
     <div class="col-12 col-md-3">
+      <h6 style="color:rgb(95, 86, 86)">Welcome, {{userEmail}}</h6>
     </div>
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-6">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Search by place address" [(ngModel)]="searchText" aria-label="Search by place"
           aria-describedby="basic-addon2">
@@ -25,14 +26,14 @@
       <div class="card" style="border:0px;">
         <div class="card-block">
           <div class="row">
-            <div *ngFor="let place of placesArray | filter : searchText" class="col-xs-2 pageTemplate" (click)="action()">
-              <div *ngIf="!place.address; else showData" class="add">
+            <div *ngFor="let place of placesArray | filter : searchText;let index = index" class="col-xs-2 pageTemplate">
+              <div *ngIf="!place.address; else showData" class="add" (click)="action('done',place,index)">
                 <i class="fa fa-plus fa-5x"></i>
                 <br>{{place?.description}}
                 <br>
               </div>
               <ng-template #showData>
-                <div style="display: block; text-align: left;">
+                <div style="display: block; text-align: left;" (click)="action('update',place,index)">
                   <div class="row justify-content-md-center" style="background:skyblue">
                     <div class="col-12 col-sm-2">
                       <h5 class="card-title">
@@ -46,7 +47,7 @@
                     <div style="font-size:12px;">
                       <b>Description:</b> {{(place?.description.length>35)? (place?.description | slice:0:35)+'...':(place?.description) }}</div>
                       </div>
-                  <button type="button" class="btn btn-warning btn-circle" (click)="delete(page,$event)">
+                  <button type="button" class="btn btn-warning btn-circle" (click)="delete(index)">
                     <i class="fa fa-times"></i>
                   </button>
                 </div>
@@ -70,12 +71,12 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          <app-place-selector [lat]="latitude" [long]="longitude" [desc]="description" [address]="address" (sendData)="LocationData($event)"></app-place-selector>
+          <app-place-selector [index]="index" [lat]="latitude" [long]="longitude" [desc]="description" [address]="address" [payload]="payload" (sendData)="LocationData($event)"></app-place-selector>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" (click)="upload()">Done</button>
+          <button type="button" class="btn btn-success" (click)="upload()">{{payload === 'update'?'Update':'Done'}}</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="close()">Close</button>
         </div>
 

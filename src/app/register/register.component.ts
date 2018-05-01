@@ -15,6 +15,8 @@ export class RegisterComponent {
     ConfPassword:any = null;
     loading:boolean = false;
     errMsg:any='';
+    disablebutn:boolean = false;
+    success:boolean = false;
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFireDatabase) {
   
@@ -22,29 +24,23 @@ export class RegisterComponent {
                 this.authState = auth
               });
             }
-          
-    get authenticated(): boolean {
-      return this.authState !== null;
-    }
-  
-    get currentUser(): any {
-      return this.authenticated ? this.authState : null;
-    }
-  
-  
-    // Returns current user UID
-    get currentUserId(): string {
-      return this.authenticated ? this.authState.uid : '';
-    }
+
     onKeyPass(e){
+      this.errMsg = '';
+      this.disablebutn = false;
         this.password = e.target.value;
     }
     onKeyEmail(e){
+      this.errMsg = '';
+      this.disablebutn = false;
         this.email = e.target.value;
     }
+
     onKeyConfPass(e){
+      this.disablebutn = false;
         this.ConfPassword = e.target.value;
         if(this.ConfPassword != this.password){
+          this.disablebutn = true;
             this.errMsg = 'Error: Both Password must be same.'
         }
         else{
@@ -53,6 +49,7 @@ export class RegisterComponent {
     }
   
     emailSignUp() {
+      this.errMsg = '';
         if(this.ConfPassword === null || this.email === null || this.password === null){
             this.errMsg = 'Error: Blank entries not allowed.'
             return;
@@ -61,29 +58,15 @@ export class RegisterComponent {
       return this.afAuth.auth.createUserWithEmailAndPassword(this.email, this.password)
         .then((user) => {
           this.authState = user
-          this.updateUserData()
+          this.loading = false;
+          this.success = true;
         })
         .catch(error => {
             this.errMsg = error;
             this.loading = false;
+            this.success = false;
             console.log(error)
         });
-    }
-  
-    private updateUserData(): void {
-        alert("success");
-        this.loading = false;
-      // Writes user name and email to realtime db
-      // useful if your app displays information about users or for admin features
-        let path = `users/${this.currentUserId}`; // Endpoint on firebase
-        let data = {
-                      email: this.authState.email,
-                      name: this.authState.displayName
-                    }
-    
-        this.db.object(path).update(data)
-        .catch(error => console.log(error));
-    
-      }       
+    }  
   }
   

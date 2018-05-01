@@ -6,6 +6,8 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 import { Router } from "@angular/router";
+import { Subscription } from 'rxjs/Subscription'
+
 
 
 @Injectable()
@@ -46,7 +48,7 @@ export class AppService {
         this.afAuth.auth.signOut();
         this.router.navigate(['/'])
       }
-    
+
   updateUserData(data:any): void {
       // Writes user name and email to realtime db
       // useful if your app displays information about users or for admin features

@@ -18,7 +18,10 @@ export class PlaceSelectComponent implements OnInit {
     @Input('lat') latitude: number ;
     @Input('long') longitude: number ;
     @Input('desc') description:any;
+    @Input('payload') payload:any;
+    @Input('index') index:any;
     data:any = {};
+    completeData:any = {};
     zoom: number = 8;
     userSettings: any = {
         inputString: ''
@@ -29,9 +32,13 @@ export class PlaceSelectComponent implements OnInit {
     ) {}
   
     ngOnInit() {
-        
+        if(this.payload === 'done'){
           this.setCurrentPosition();
-      //set google maps defaults
+        }      
+        if(this.payload === 'update'){
+          this.userSettings.inputString = this.formattedAddress;
+        }
+        //set google maps defaults
    
     }
     mapClicked(e:MouseEvent){
@@ -46,12 +53,12 @@ export class PlaceSelectComponent implements OnInit {
         this.longitude = data.data.geometry.location.lng;
         this.formattedAddress = data.data.formatted_address;
         this.description = data.data.description;
-        console.log(this.description);
+        console.log('paylod:',this.payload);
         this.data.latitude = this.latitude;
         this.data.longitude = this.longitude;
         this.data.description = this.description;
         this.data.address = this.formattedAddress;
-        this.sendData.emit(this.data);
+        this.sendData.emit({"placeData":this.data,"payload":this.payload,"index":this.index});
         }
     }
    

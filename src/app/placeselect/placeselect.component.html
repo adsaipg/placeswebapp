@@ -1,7 +1,7 @@
 <div class="row justify-content-md-center search-place">
     <div class="col col-lg-12">
         <div class="form-group">
-            <ng4geo-autocomplete (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+            <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
         </div>
     </div>
 </div>
