@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText: any): any[] {
+    //pipes for filtering the cards on dashboard on searching
     if(!items) return [];
     if(!searchText) return items;
     return searchText 

@@ -27,14 +27,14 @@ export class LoginComponent {
       this.authState = auth
     });
   }
-
+//on typing email and password
   onKeyPass(e) {
     this.password = e.target.value;
   }
   onKeyEmail(e) {
     this.email = e.target.value;
   }
-
+//login to account
   emailLogin() {
     if(this.password === null || this.email === null){
         this.errMssg = 'Error: Blank entries not allowed.'
@@ -45,6 +45,7 @@ export class LoginComponent {
        .then((user) => {
          this.authState = user;
          localStorage.setItem('userEmail' , JSON.stringify(this.email));
+         //navigate to dashboard
          this.router.navigate(['home'], {
           relativeTo: this.route.parent,
         });

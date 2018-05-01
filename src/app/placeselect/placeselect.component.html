@@ -1,13 +1,14 @@
 <div class="row justify-content-md-center search-place">
     <div class="col col-lg-12">
         <div class="form-group">
+            <!-- autocomplete search bar -->
             <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
         </div>
     </div>
 </div>
+<!-- display map using Angular google map -->
 <div class="container">
-    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" 
-    [disableDefaultUI]="false" [zoomControl]="true">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="true">
 
         <agm-marker [latitude]="latitude" [longitude]="longitude">
         </agm-marker>

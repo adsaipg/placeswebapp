@@ -1,6 +1,6 @@
-import { Component,ViewChild,OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { AppService } from '../app.services';
-import { ActivatedRoute ,Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,67 +9,70 @@ import { ActivatedRoute ,Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   @ViewChild('placeModal') placeModal;
-  display:any = 'none';
-  opacity:any = '1.0';
-  latitude:number = 0;
-  longitude:number = 0;
-  description:any = '';
+  display: any = 'none';
+  opacity: any = '1.0';
+  latitude: number = 0;
+  longitude: number = 0;
+  description: any = '';
   address: any = '';
-  showModal:boolean = false;
+  showModal: boolean = false;
   authState: any = null;
-  data:any[] = [];
-  dataForUpload:any[] = [];
-  placesArray:any[]=[];
-  userId:any;
-  loading:boolean = false;
-  searchText:any;
-  payload:any = '';
-  index:any = 0;
-  userEmail:any;
+  data: any[] = [];
+  dataForUpload: any[] = [];
+  placesArray: any[] = [];
+  userId: any;
+  loading: boolean = false;
+  searchText: any;
+  payload: any = '';
+  index: any = 0;
+  userEmail: any;
 
-  constructor(private service:AppService,private route: ActivatedRoute,
-    private router: Router) {}
+  constructor(private service: AppService, private route: ActivatedRoute,
+    private router: Router) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.getPlaceCards();
+    //get id and email of user on route change
     this.route.params.subscribe((params: any) => {
-      localStorage.setItem('userInfo' , JSON.stringify(this.service.currentUserId));
+      localStorage.setItem('userInfo', JSON.stringify(this.service.currentUserId));
       this.userEmail = JSON.parse(localStorage.getItem('userEmail'));
-      console.log('email:',this.userEmail);
-  
-  });
-   // this.userId = JSON.parse(localStorage.getItem('userInfo'));
-  }
+      console.log('email:', this.userEmail);
 
-  getPlaceCards(){
-    this.loading = true;
-    this.placesArray = [{description:'Add new place'}];
-    this.userId = JSON.parse(localStorage.getItem('userInfo'));
-    console.log("id:",this.userId);
-    if(this.userId){
-    this.service.getPlaces(this.userId).subscribe((res)=>{
-      console.log('places:',res);
-      res=res.json();
-      if(res && this.userId){
-      res.forEach(element => {
-        this.placesArray.push(element);
-      });
-    }
-      this.loading = false;
     });
   }
-  else{
-    alert("Some error occurred.Please login again !");
-    this.loading = false;
-  }
-    }
 
-  action(payload,place,index){
-    console.log('pay:',payload,' place:',place);
+  getPlaceCards() {
+    this.loading = true;
+    this.placesArray = [{ description: 'Add new place' }];
+    this.userId = this.service.currentUserId;
+    console.log("id:", this.userId);
+    //service called for getting places data
+    if (this.userId) {
+      this.service.getPlaces(this.userId).subscribe((res) => {
+        console.log('places:', res);
+        res = res.json();
+        if (res && this.userId) {
+          res.forEach(element => {
+            this.placesArray.push(element);
+          });
+        }
+        this.loading = false;
+      });
+    }
+    //if user id not found then error may occurred
+    else {
+      alert("Some error occurred.Please login again !");
+      this.loading = false;
+    }
+  }
+
+  action(payload, place, index) {
+    //On clicking cards of '+' and already existing cards
+    console.log('pay:', payload, ' place:', place);
     this.payload = payload;
-    console.log('indx:',index);
+    console.log('indx:', index);
     this.index = index;
-    if(payload === 'update'){
+    if (payload === 'update') {
       this.latitude = place.latitude;
       this.longitude = place.longitude;
       this.description = place.description;
@@ -78,45 +81,48 @@ export class HomeComponent implements OnInit {
     this.display = 'block';
     this.showModal = true;
   }
-  upload(){
-    if(this.data){
-    this.placesArray.push(this.data);
+  upload() {
+    //uploading data to firebase
+    if (this.data) {
+      this.placesArray.push(this.data);
     }
     this.placesArray.shift();
     // console.log('final data:',this.dataForUpload);
     this.service.updateUserData(this.placesArray);
-    console.log('placesarray:',this.placesArray);
+    console.log('placesarray:', this.placesArray);
     this.getPlaceCards();
     this.data = [];
     this.close();
   }
-  close(){
+  close() {
     this.showModal = false;
     this.display = 'none';
-    }
-  LocationData(event){
+  }
+  LocationData(event) {
+    //data on selecting place from map
     this.data = [];
-    console.log('eve:',event);
-    if(event.payload === 'update'){
+    console.log('eve:', event);
+    if (event.payload === 'update') {
       this.data = [];
-      this.updateArray(event.placeData,event.index);
+      this.updateArray(event.placeData, event.index);
     }
-    if(event.payload === 'done'){
+    if (event.payload === 'done') {
       this.data = event.placeData;
     }
   }
-  updateArray(d,i){
-    this.placesArray.splice(i,1,d);
-    console.log('updatedARra:',this.placesArray);
+  updateArray(d, i) {
+    this.placesArray.splice(i, 1, d);
+    console.log('updatedARra:', this.placesArray);
     //this.upload();
   }
-  delete(index){
-    console.log('old:',this.placesArray);
-    this.placesArray.splice(index,1);
-    console.log('new:',this.placesArray);
+  delete(index) {
+    //delete the cards
+    console.log('old:', this.placesArray);
+    this.placesArray.splice(index, 1);
+    console.log('new:', this.placesArray);
     this.upload();
   }
-  signOut(){
+  signOut() {
     this.service.signOut();
   }
 }

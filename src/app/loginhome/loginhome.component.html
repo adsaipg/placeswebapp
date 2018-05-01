@@ -1,10 +1,15 @@
+<!-- template for login and register -->
 <div class="container root-container">
-    <div class="row root">
-        <div class="col-md-12 root-tab">    
-          <tabset [justified]="true" customClass="customClass">
-            <tab heading="Login"><app-login></app-login></tab>
-            <tab heading="Register"><app-register></app-register></tab>
-          </tabset>
-        </div>
-      </div>
+  <div class="row root">
+    <div class="col-md-12 root-tab">
+      <tabset [justified]="true" customClass="customClass">
+        <tab heading="Login">
+          <app-login></app-login>
+        </tab>
+        <tab heading="Register">
+          <app-register></app-register>
+        </tab>
+      </tabset>
+    </div>
+  </div>
 </div>
