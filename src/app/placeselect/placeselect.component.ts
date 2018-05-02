@@ -23,6 +23,18 @@ export class PlaceSelectComponent implements OnInit {
   data: any = {};
   completeData: any = {};
   zoom: number = 8;
+  dir = undefined;
+  currLatitude:any;
+  currLongitude:any;
+  loading:boolean = false;
+  mark = false;
+  markerOpts = {
+    origin: {
+      label: 'Your Location',
+      opacity: 1.5
+      // ... properties
+    },
+  };
   userSettings: any = {
     inputString: ''
   }
@@ -32,7 +44,8 @@ export class PlaceSelectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+   this.dir = undefined;
+    this.setOrigin();
     if (this.payload === 'done') {
       this.setCurrentPosition(); //current location of user
     }
@@ -42,6 +55,7 @@ export class PlaceSelectComponent implements OnInit {
     //set google maps defaults
 
   }
+
   mapClicked(e: MouseEvent) {
     console.log('data2:', e);
     this.latitude = e.coords.lat;
@@ -61,15 +75,46 @@ export class PlaceSelectComponent implements OnInit {
       this.data.description = this.description;
       this.data.address = this.formattedAddress;
       this.sendData.emit({ "placeData": this.data, "payload": this.payload, "index": this.index });
+      this.dir = {
+        origin: { lat: this.currLatitude, lng: this.currLongitude },
+        destination: {lat: this.latitude, lng: this.longitude }
+      }
     }
   }
-
+  dirChange(event){
+    console.log('eventCh:',event);
+    this.dir = undefined;
+  }
+setOrigin(){
+  console.log('origin call');
+  this.loading = true;
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => { // getting current location using geolocation
+      this.currLatitude = position.coords.latitude;
+      this.currLongitude = position.coords.longitude;
+      if(this.payload === 'done'){
+        this.latitude  = this.currLatitude;
+        this.longitude = this.currLongitude;
+      }
+      console.log('crr:',this.currLatitude,' lat:',this.latitude);
+      this.dir = {
+        origin: { lat: this.currLatitude, lng: this.currLongitude },
+        destination: {lat: this.latitude, lng: this.longitude }
+      }
+      this.loading = false;
+      //this.zoom = 14;
+    });
+    ;
+  }
+}
   private setCurrentPosition() {
     console.log('test 6');
+    this.loading = true;
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => { // getting current location using geolocation
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
+        this.loading = false;
         //this.zoom = 14;
       });
     }

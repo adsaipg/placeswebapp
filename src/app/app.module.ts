@@ -8,6 +8,7 @@ import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CommonModule } from '@angular/common';
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 
 
@@ -59,6 +60,7 @@ const routes:Routes = [
     TooltipModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot(routes),
+    AgmDirectionModule,
     Ng4GeoautocompleteModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBexTNip9DYnl-q6XYmY9XgYbFWN62i-P4',
