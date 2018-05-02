@@ -27,7 +27,7 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
-    "agm-direction": "^0.5.3",
+    "agm-direction": "^0.3.7",
     "angularfire2": "^5.0.0-rc.3",
     "bootstrap": "4.0.0",
     "core-js": "^2.4.1",
